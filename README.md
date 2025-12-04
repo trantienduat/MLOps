@@ -1,43 +1,68 @@
 # MLOps MNIST Digit Recognition Project
 
-A complete MLOps project demonstrating machine learning workflow with experiment tracking, model registry, web deployment, and CI/CD pipeline.
+📚 **Full documentation is available in [`docs/README.md`](docs/README.md)**
 
-## 🎯 Project Overview
+## Quick Start
 
-This project implements an end-to-end MLOps pipeline for MNIST digit recognition:
-- **Training Pipeline**: Multiple experiment runs with MLflow tracking
-- **Model Registry**: Best model selection and versioning
-- **Web Application**: Interactive digit drawing and prediction
-- **Containerization**: Docker support for easy deployment
-- **CI/CD**: Automated builds and deployment with GitHub Actions
+```bash
+# 1. Setup environment
+python3.11 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
 
-## 📋 Features
+# 2. Train models
+python src/train.py
 
-- ✅ Three experimental runs with different architectures and hyperparameters
-- ✅ MLflow experiment tracking and model registry
-- ✅ Interactive web UI for drawing and prediction
-- ✅ RESTful API for predictions
-- ✅ Docker containerization
-- ✅ GitHub Actions CI/CD pipeline
-- ✅ Production-ready Flask application
+# 3. View experiments
+mlflow ui
 
-## 🛠️ Tech Stack
+# 4. Register best model
+python scripts/register_model.py
 
-- **Python 3.11**
-- **TensorFlow 2.15** - Deep learning framework
-- **MLflow 2.9** - Experiment tracking and model registry
-- **Flask 3.0** - Web framework
-- **Docker** - Containerization
-- **GitHub Actions** - CI/CD
+# 5. Run web app
+python src/app.py
+```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 MLOps/
-├── .github/
-│   └── workflows/
-│       └── docker-image.yml    # CI/CD workflow
-├── templates/
+├── docs/               # All documentation and guides
+├── scripts/            # Helper scripts (test, register, pipeline)
+├── src/                # Source code (train.py, app.py)
+├── templates/          # Frontend HTML
+├── .github/workflows/  # CI/CD configuration
+├── requirements.txt    # Python dependencies
+└── Dockerfile         # Container configuration
+```
+
+## Documentation
+
+- **[README](docs/README.md)** - Complete project documentation
+- **[Getting Started](docs/GETTING_STARTED.md)** - Quick 5-minute setup
+- **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed setup with checklists
+- **[Installation](docs/INSTALLATION.md)** - Install dependencies & troubleshooting
+- **[Commands](docs/COMMANDS.md)** - Command reference cheat sheet
+- **[Project Summary](docs/PROJECT_SUMMARY.md)** - Implementation status
+- **[Index](docs/INDEX.md)** - Documentation navigator
+
+## Quick Commands
+
+```bash
+# Run complete pipeline (Unix/Mac)
+./scripts/run_pipeline.sh
+
+# Run complete pipeline (Windows)
+scripts\run_pipeline.bat
+
+# Test environment
+python scripts/test_setup.py
+
+# Verify packages
+python scripts/verify_env.py
+```
+
+For detailed instructions, see [`docs/README.md`](docs/README.md).
 │   └── index.html              # Web UI
 ├── mlruns/                     # MLflow tracking data
 ├── train.py                    # Training script with 3 runs

@@ -12,7 +12,7 @@ echo ========================================
 echo Step 1: Checking Environment
 echo ========================================
 echo.
-python test_setup.py
+python scripts\test_setup.py
 if errorlevel 1 (
     echo Error: Environment check failed
     exit /b 1
@@ -26,7 +26,7 @@ echo Step 2: Training Models
 echo This may take 10-15 minutes...
 echo ========================================
 echo.
-python train.py
+python src\train.py
 if errorlevel 1 (
     echo Error: Training failed
     exit /b 1
@@ -39,7 +39,7 @@ echo ========================================
 echo Step 3: Registering Best Model
 echo ========================================
 echo.
-python register_model.py
+python scripts\register_model.py
 echo.
 
 REM Step 4: Information
@@ -55,7 +55,7 @@ echo    mlflow ui
 echo    Then open: http://127.0.0.1:5000
 echo.
 echo 2. Run web application:
-echo    python app.py
+echo    python src\app.py
 echo    Then open: http://127.0.0.1:5000
 echo.
 echo 3. Build Docker image:
@@ -65,4 +65,3 @@ echo 4. Run with Docker:
 echo    docker run -p 5000:5000 mlops-mnist
 echo.
 pause
-

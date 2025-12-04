@@ -37,7 +37,7 @@ main() {
     
     # Step 1: Check environment
     print_header "Step 1: Checking Environment"
-    if python test_setup.py; then
+    if python scripts/test_setup.py; then
         print_success "Environment check passed"
     else
         print_error "Environment check failed"
@@ -46,18 +46,18 @@ main() {
     
     # Step 2: Run training
     print_header "Step 2: Training Models (This may take 10-15 minutes)"
-    if [ -f "train.py" ]; then
-        python train.py
+    if [ -f "src/train.py" ]; then
+        python src/train.py
         print_success "Training completed"
     else
-        print_error "train.py not found"
+        print_error "src/train.py not found"
         exit 1
     fi
     
     # Step 3: Register best model
     print_header "Step 3: Registering Best Model"
     print_warning "Please follow the prompts to register the model"
-    python register_model.py
+    python scripts/register_model.py
     
     # Step 4: Information
     print_header "Pipeline Complete!"
@@ -69,7 +69,7 @@ main() {
     echo -e "   Then open: ${BLUE}http://127.0.0.1:5000${NC}\n"
     
     echo "2. Run web application:"
-    echo -e "   ${YELLOW}python app.py${NC}"
+    echo -e "   ${YELLOW}python src/app.py${NC}"
     echo -e "   Then open: ${BLUE}http://127.0.0.1:5000${NC}\n"
     
     echo "3. Build Docker image:"
@@ -81,4 +81,3 @@ main() {
 
 # Run main function
 main
-
