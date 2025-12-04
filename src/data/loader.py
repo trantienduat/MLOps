@@ -1,4 +1,5 @@
 """Data loading and preprocessing utilities for MNIST dataset."""
+
 from typing import Tuple
 
 import numpy as np

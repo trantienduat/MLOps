@@ -1,4 +1,5 @@
 """Training pipeline for MNIST classification models."""
+
 from typing import Any, Dict, Tuple
 
 import matplotlib.pyplot as plt
@@ -99,7 +100,9 @@ def train_model(
                 mlflow.log_metric("train_loss", history.history["loss"][epoch], step=epoch)
                 mlflow.log_metric("train_accuracy", history.history["accuracy"][epoch], step=epoch)
                 mlflow.log_metric("val_loss", history.history["val_loss"][epoch], step=epoch)
-                mlflow.log_metric("val_accuracy", history.history["val_accuracy"][epoch], step=epoch)
+                mlflow.log_metric(
+                    "val_accuracy", history.history["val_accuracy"][epoch], step=epoch
+                )
 
             # Create and log training curves
             _log_training_curves(history)
@@ -107,7 +110,9 @@ def train_model(
             # Log model with signature
             _log_model_with_signature(model, x_test[:1])
 
-            logger.info(f"{run_name} - Test Accuracy: {test_accuracy:.4f}, Test Loss: {test_loss:.4f}")
+            logger.info(
+                f"{run_name} - Test Accuracy: {test_accuracy:.4f}, Test Loss: {test_loss:.4f}"
+            )
 
             return model, history
 

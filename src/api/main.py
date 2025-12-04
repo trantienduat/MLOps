@@ -1,4 +1,5 @@
 """FastAPI application for MNIST digit classification."""
+
 import base64
 import io
 import time

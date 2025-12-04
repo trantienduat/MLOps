@@ -1,4 +1,5 @@
 """CNN model architectures for MNIST classification."""
+
 from typing import List
 
 from tensorflow import keras
@@ -76,9 +77,7 @@ def create_improved_architecture_model(
     return model
 
 
-def create_optimized_model(
-    input_shape: tuple = (28, 28, 1), num_classes: int = 10
-) -> keras.Model:
+def create_optimized_model(input_shape: tuple = (28, 28, 1), num_classes: int = 10) -> keras.Model:
     """
     Create optimized CNN model (Run 3).
 
@@ -147,8 +146,6 @@ def get_model_config(model_type: str) -> dict:
     }
 
     if model_type not in configs:
-        raise ValueError(
-            f"Invalid model_type: {model_type}. Must be one of {list(configs.keys())}"
-        )
+        raise ValueError(f"Invalid model_type: {model_type}. Must be one of {list(configs.keys())}")
 
     return configs[model_type]

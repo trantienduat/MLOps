@@ -25,21 +25,22 @@ def print_section(title):
 def main():
     """Display quick start guide."""
     print_banner()
-    
+
     print("Welcome to the MLOps MNIST Digit Recognition project!")
     print("This guide will help you get started quickly.\n")
-    
+
     # Check if in virtual environment
-    in_venv = hasattr(sys, 'real_prefix') or (
-        hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix
+    in_venv = hasattr(sys, "real_prefix") or (
+        hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix
     )
-    
+
     if not in_venv:
         print("⚠️  Warning: You don't appear to be in a virtual environment.")
         print("   It's recommended to use a virtual environment.\n")
-    
+
     print_section("📋 PHASE 1: SETUP (First Time Only)")
-    print("""
+    print(
+        """
 1. Create and activate virtual environment:
    
    python3.11 -m venv venv
@@ -54,10 +55,12 @@ def main():
 3. Verify installation:
    
    python test_setup.py
-    """)
-    
+    """
+    )
+
     print_section("🎓 PHASE 2: TRAIN MODELS")
-    print("""
+    print(
+        """
 Run the training script to create 3 experiment runs:
 
    python train.py
@@ -72,10 +75,12 @@ Expected results:
 - Run 1 (Baseline):        ~98.0% accuracy
 - Run 2 (Architecture):    ~98.5% accuracy  
 - Run 3 (Hyperparameter):  ~99.0% accuracy
-    """)
-    
+    """
+    )
+
     print_section("📊 PHASE 3: VIEW EXPERIMENTS")
-    print("""
+    print(
+        """
 Start MLflow UI to view and compare experiments:
 
    mlflow ui
@@ -89,10 +94,12 @@ Then:
    - Click "Register Model"
    - Name: Mnist_Best_Model
    - Stage: Production
-    """)
-    
+    """
+    )
+
     print_section("🌐 PHASE 4: RUN WEB APPLICATION")
-    print("""
+    print(
+        """
 Start the Flask web application:
 
    python app.py
@@ -106,10 +113,12 @@ Then:
 
 Note: Make sure MLflow UI is stopped first (uses same port 5000)
 or run MLflow on different port: mlflow ui --port 5001
-    """)
-    
+    """
+    )
+
     print_section("🐳 PHASE 5: DOCKER (BONUS)")
-    print("""
+    print(
+        """
 Build and run with Docker:
 
    # Build image
@@ -121,10 +130,12 @@ Build and run with Docker:
    # Push to Docker Hub (optional)
    docker tag mlops-mnist:latest YOUR_USERNAME/mlops-mnist:latest
    docker push YOUR_USERNAME/mlops-mnist:latest
-    """)
-    
+    """
+    )
+
     print_section("🔄 PHASE 6: CI/CD WITH GITHUB ACTIONS (BONUS)")
-    print("""
+    print(
+        """
 1. Create GitHub repository
 2. Configure secrets in GitHub:
    Settings → Secrets → Actions
@@ -138,10 +149,12 @@ Build and run with Docker:
    git push origin main
 
 4. Check Actions tab for automated builds
-    """)
-    
+    """
+    )
+
     print_section("📚 USEFUL COMMANDS")
-    print("""
+    print(
+        """
 # Check environment
 python test_setup.py
 
@@ -165,17 +178,21 @@ docker run -p 5000:5000 mlops-mnist
 git add .
 git commit -m "Update"
 git push
-    """)
-    
+    """
+    )
+
     print_section("📖 DOCUMENTATION")
-    print("""
+    print(
+        """
 - README.md         - Complete project documentation
 - SETUP_GUIDE.md    - Detailed setup instructions
 - .github/copilot-instructions.md - Project requirements
-    """)
-    
+    """
+    )
+
     print_section("🆘 TROUBLESHOOTING")
-    print("""
+    print(
+        """
 Common issues:
 
 1. "Module not found":
@@ -191,8 +208,9 @@ Common issues:
 4. Docker build fails:
    → docker system prune -a
    → docker build --no-cache -t mlops-mnist .
-    """)
-    
+    """
+    )
+
     print("\n" + "=" * 80)
     print("✨ Ready to start? Run: python test_setup.py")
     print("=" * 80)

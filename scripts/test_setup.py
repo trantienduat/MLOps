@@ -16,16 +16,16 @@ def check_imports():
     print("=" * 60)
     print("Checking required packages...")
     print("=" * 60)
-    
+
     packages = {
-        'tensorflow': 'TensorFlow',
-        'mlflow': 'MLflow',
-        'flask': 'Flask',
-        'numpy': 'NumPy',
-        'matplotlib': 'Matplotlib',
-        'PIL': 'Pillow'
+        "tensorflow": "TensorFlow",
+        "mlflow": "MLflow",
+        "flask": "Flask",
+        "numpy": "NumPy",
+        "matplotlib": "Matplotlib",
+        "PIL": "Pillow",
     }
-    
+
     missing = []
     for package, name in packages.items():
         try:
@@ -34,12 +34,12 @@ def check_imports():
         except ImportError:
             print(f"✗ {name:15s} - MISSING")
             missing.append(package)
-    
+
     if missing:
         print("\n❌ Missing packages:", ", ".join(missing))
         print("Run: pip install -r requirements.txt")
         return False
-    
+
     print("\n✅ All required packages are installed!")
     return True
 
@@ -49,10 +49,10 @@ def check_python_version():
     print("\n" + "=" * 60)
     print("Checking Python version...")
     print("=" * 60)
-    
+
     version = sys.version_info
     print(f"Python version: {version.major}.{version.minor}.{version.micro}")
-    
+
     if version.major == 3 and version.minor >= 9:
         print("✅ Python version is compatible (3.9+)")
         return True
@@ -66,10 +66,11 @@ def test_training():
     print("\n" + "=" * 60)
     print("Testing training script...")
     print("=" * 60)
-    
+
     try:
-        sys.path.insert(0, 'src')
+        sys.path.insert(0, "src")
         import train
+
         print("✅ Training script can be imported")
         print("   Functions available:")
         print(f"   - load_mnist_data: {hasattr(train, 'load_mnist_data')}")
@@ -86,10 +87,11 @@ def test_app():
     print("\n" + "=" * 60)
     print("Testing Flask application...")
     print("=" * 60)
-    
+
     try:
-        sys.path.insert(0, 'src')
+        sys.path.insert(0, "src")
         import app
+
         print("✅ Flask app can be imported")
         print(f"   - Flask app created: {app.app is not None}")
         print(f"   - Routes defined: {len(app.app.url_map._rules)} routes")
@@ -106,32 +108,32 @@ def main():
     print("║" + " " * 15 + "MLOps Project - Quick Test" + " " * 16 + "║")
     print("╚" + "=" * 58 + "╝")
     print()
-    
+
     results = []
-    
+
     # Check Python version
     results.append(("Python Version", check_python_version()))
-    
+
     # Check imports
     results.append(("Package Installation", check_imports()))
-    
+
     # Test training script
     results.append(("Training Script", test_training()))
-    
+
     # Test Flask app
     results.append(("Flask Application", test_app()))
-    
+
     # Summary
     print("\n" + "=" * 60)
     print("TEST SUMMARY")
     print("=" * 60)
-    
+
     for test_name, passed in results:
         status = "✅ PASS" if passed else "❌ FAIL"
         print(f"{test_name:25s} - {status}")
-    
+
     all_passed = all(result[1] for result in results)
-    
+
     print("\n" + "=" * 60)
     if all_passed:
         print("🎉 All tests passed! You're ready to go!")
@@ -142,7 +144,7 @@ def main():
     else:
         print("⚠️  Some tests failed. Please fix the issues above.")
     print("=" * 60)
-    
+
     return 0 if all_passed else 1
 
 

@@ -1,4 +1,5 @@
 """Unit tests for CNN models."""
+
 import pytest
 from tensorflow import keras
 

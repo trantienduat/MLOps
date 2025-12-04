@@ -1,4 +1,5 @@
 """Integration tests for the FastAPI application."""
+
 import base64
 import io
 

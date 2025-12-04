@@ -1,4 +1,5 @@
 """Pydantic schemas for API request/response validation."""
+
 from typing import List
 
 from pydantic import BaseModel, Field, field_validator
@@ -41,7 +42,18 @@ class PredictionResponse(BaseModel):
             "example": {
                 "prediction": 5,
                 "confidence": 0.9876,
-                "probabilities": [0.001, 0.002, 0.003, 0.001, 0.002, 0.9876, 0.001, 0.001, 0.001, 0.001],
+                "probabilities": [
+                    0.001,
+                    0.002,
+                    0.003,
+                    0.001,
+                    0.002,
+                    0.9876,
+                    0.001,
+                    0.001,
+                    0.001,
+                    0.001,
+                ],
             }
         }
 
@@ -76,4 +88,6 @@ class ErrorResponse(BaseModel):
     class Config:
         """Pydantic configuration."""
 
-        json_schema_extra = {"example": {"detail": "Invalid image format", "error_type": "ValidationError"}}
+        json_schema_extra = {
+            "example": {"detail": "Invalid image format", "error_type": "ValidationError"}
+        }

@@ -1,4 +1,5 @@
 """Prometheus metrics for model serving monitoring."""
+
 from prometheus_client import Counter, Gauge, Histogram
 
 # Prediction metrics

@@ -1,4 +1,5 @@
 """Utility module for centralized configuration management."""
+
 import os
 from pathlib import Path
 from typing import Optional

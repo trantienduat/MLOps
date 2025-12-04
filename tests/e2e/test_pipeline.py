@@ -1,4 +1,5 @@
 """End-to-end tests for the complete ML pipeline."""
+
 import pytest
 
 # These are placeholder E2E tests
