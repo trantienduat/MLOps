@@ -1,24 +1,55 @@
-# Dockerfile for MLOps MNIST Project
-# Base image: Python 3.11 slim
+# Multi-stage Dockerfile for MNIST MLOps Application
+# Build stage
+FROM python:3.11-slim as builder
+
+WORKDIR /build
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Runtime stage
 FROM python:3.11-slim
 
-# Set working directory
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && \
+    mkdir -p /app && \
+    chown -R appuser:appuser /app
+
 WORKDIR /app
 
-# Copy requirements file
-COPY requirements.txt ./
+# Copy dependencies from builder stage
+COPY --from=builder /root/.local /home/appuser/.local
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy all project files
-COPY . .
-
-# Expose port 5000 for Flask application
-EXPOSE 5000
+# Copy application code
+COPY --chown=appuser:appuser src/ ./src/
+COPY --chown=appuser:appuser templates/ ./templates/
+COPY --chown=appuser:appuser .env.example ./.env
 
 # Set environment variables
-ENV PYTHONUNBUFFERED=1
+ENV PATH=/home/appuser/.local/bin:$PATH \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    MLFLOW_TRACKING_URI=http://mlflow:5000 \
+    ENVIRONMENT=production \
+    LOG_LEVEL=INFO
 
-# Run the Flask application
-CMD ["python", "app.py"]
+# Switch to non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
+    CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)" || exit 1
+
+# Run application with Gunicorn
+CMD ["gunicorn", "src.api.main:app", \
+     "--workers", "4", \
+     "--worker-class", "uvicorn.workers.UvicornWorker", \
+     "--bind", "0.0.0.0:8000", \
+     "--timeout", "120", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-"]
+

@@ -1,220 +1,398 @@
-# MLOps MNIST Digit Recognition Project
+# Enterprise MLOps MNIST Classification System
 
-📚 **Full documentation is available in [`docs/README.md`](docs/README.md)**
+<div align="center">
 
-## Quick Start
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15+-orange.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)
+![MLflow](https://img.shields.io/badge/MLflow-2.9+-blue.svg)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-```bash
-# 1. Setup environment
-python3.11 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+**Production-ready ML system for MNIST digit recognition following enterprise best practices**
 
-# 2. Train models
-python src/train.py
+[Quick Start](#quick-start) • [Documentation](docs/) • [API Docs](#api-documentation) • [Contributing](#contributing)
 
-# 3. View experiments
-mlflow ui
+</div>
 
-# 4. Register best model
-python scripts/register_model.py
+---
 
-# 5. Run web app
-python src/app.py
-```
+## 🎯 Overview
 
-## Project Structure
+Enterprise-grade MLOps system demonstrating production best practices:
 
-```
-MLOps/
-├── docs/               # All documentation and guides
-├── scripts/            # Helper scripts (test, register, pipeline)
-├── src/                # Source code (train.py, app.py)
-├── templates/          # Frontend HTML
-├── .github/workflows/  # CI/CD configuration
-├── requirements.txt    # Python dependencies
-└── Dockerfile         # Container configuration
-```
-
-## Documentation
-
-- **[README](docs/README.md)** - Complete project documentation
-- **[Getting Started](docs/GETTING_STARTED.md)** - Quick 5-minute setup
-- **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed setup with checklists
-- **[Installation](docs/INSTALLATION.md)** - Install dependencies & troubleshooting
-- **[Commands](docs/COMMANDS.md)** - Command reference cheat sheet
-- **[Project Summary](docs/PROJECT_SUMMARY.md)** - Implementation status
-- **[Index](docs/INDEX.md)** - Documentation navigator
-
-## Quick Commands
-
-```bash
-# Run complete pipeline (Unix/Mac)
-./scripts/run_pipeline.sh
-
-# Run complete pipeline (Windows)
-scripts\run_pipeline.bat
-
-# Test environment
-python scripts/test_setup.py
-
-# Verify packages
-python scripts/verify_env.py
-```
-
-For detailed instructions, see [`docs/README.md`](docs/README.md).
-│   └── index.html              # Web UI
-├── mlruns/                     # MLflow tracking data
-├── train.py                    # Training script with 3 runs
-├── app.py                      # Flask application
-├── requirements.txt            # Python dependencies
-├── Dockerfile                  # Docker configuration
-├── README.md                   # This file
-└── verify_env.py              # Environment verification
-```
+- ✅ **Experiment Tracking**: MLflow with comprehensive metrics
+- ✅ **Model Registry**: Automated model versioning and staging
+- ✅ **Production API**: FastAPI with Pydantic validation
+- ✅ **Monitoring**: Prometheus metrics and health checks
+- ✅ **Testing**: 80%+ code coverage with pytest
+- ✅ **Code Quality**: Black, isort, flake8, mypy enforcement
+- ✅ **CI/CD**: Comprehensive GitHub Actions pipeline
+- ✅ **Security**: Multi-stage Docker, non-root user, dependency scanning
+- ✅ **Type Safety**: Full type hints throughout codebase
+- ✅ **Observability**: Structured logging and metrics
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+- Python 3.11+
+- Docker & Docker Compose (optional but recommended)
 
-- Python 3.11
-- pip
-- (Optional) Docker for containerization
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd MLOps
-   ```
-
-2. **Create virtual environment**
-   ```bash
-   python3.11 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## 📊 Phase 1: Training & Experimentation
-
-### Run Training Pipeline
-
-Execute the training script to run all three experiments:
-
+### Option 1: Automated Setup (Recommended)
 ```bash
-python train.py
+git clone https://github.com/trantienduat/MLOps.git
+cd MLOps
+./setup.sh
+source .venv/bin/activate
 ```
 
-This will create three runs:
-- **Run 1 (Baseline)**: Simple CNN with 1 Conv2D layer
-- **Run 2 (Improved Architecture)**: Added Dropout and increased filters
-- **Run 3 (Hyperparameter Tuning)**: Optimized learning rate and batch size
-
-### View Experiments in MLflow UI
-
+### Option 2: Manual Setup
 ```bash
+# Clone repository
+git clone https://github.com/trantienduat/MLOps.git
+cd MLOps
+
+# Create virtual environment
+python3.11 -m venv .venv
+source .venv/bin/activate  # Mac/Linux
+# .venv\Scripts\activate  # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+### Train Models
+```bash
+# Run training pipeline (creates 3 experiments)
+python src/training/train.py
+
+# View results in MLflow UI
 mlflow ui
+# Open http://localhost:5000
 ```
 
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+### Start API Server
 
-### Register Best Model
+#### Development Mode
+```bash
+uvicorn src.api.main:app --reload
+# API: http://localhost:8000
+# Docs: http://localhost:8000/api/docs
+```
 
-1. Open MLflow UI
-2. Compare runs by metrics (accuracy, loss)
-3. Select the best performing run
-4. Click "Register Model"
-5. Name: `Mnist_Best_Model`
-6. Stage: `Production`
+#### Production Mode (Docker)
+```bash
+# Start all services (MLflow + API)
+docker-compose up -d
 
-## 🌐 Phase 2: Web Application
+# View logs
+docker-compose logs -f api
 
-### Run Flask App Locally
+# Stop services
+docker-compose down
+```
+
+## 📁 Project Structure
+
+```
+MLOps/
+├── .github/
+│   ├── workflows/
+│   │   └── docker-image.yml     # CI/CD pipeline
+│   └── copilot-instructions.md  # Development guidelines
+├── src/
+│   ├── api/                     # FastAPI application
+│   │   ├── main.py             # API endpoints
+│   │   └── schemas.py          # Pydantic models
+│   ├── models/                  # Model architectures
+│   │   └── cnn.py              # CNN models
+│   ├── data/                    # Data processing
+│   │   └── loader.py           # MNIST loader
+│   ├── training/                # Training pipeline
+│   │   └── train.py            # Training script
+│   ├── monitoring/              # Observability
+│   │   └── metrics.py          # Prometheus metrics
+│   └── utils/                   # Utilities
+│       ├── config.py           # Configuration
+│       └── logger.py           # Logging setup
+├── tests/                       # Test suite
+│   ├── unit/                   # Unit tests
+│   ├── integration/            # Integration tests
+│   └── e2e/                    # End-to-end tests
+├── docs/                        # Documentation
+├── templates/                   # Web UI
+├── scripts/                     # Helper scripts
+├── .env.example                # Environment template
+├── .pre-commit-config.yaml     # Pre-commit hooks
+├── pyproject.toml              # Project configuration
+├── docker-compose.yml          # Local orchestration
+├── Dockerfile                  # Multi-stage build
+└── requirements.txt            # Dependencies
+```
+
+## 🔬 ML Development Workflow
+
+### Experiment Strategy
+
+**Baseline → Iterate → Optimize → Deploy**
 
 ```bash
-python app.py
+# All experiments tracked in MLflow
+python src/training/train.py
 ```
 
-Visit [http://127.0.0.1:5000](http://127.0.0.1:5000) to:
-- Draw digits on the canvas
-- Get real-time predictions
-- View confidence scores for all digits
+| Run | Purpose | Architecture | Hyperparameters | Expected Accuracy |
+|-----|---------|--------------|-----------------|-------------------|
+| 1 | Baseline | 1 Conv2D, 1 Dense | LR=0.001, BS=128, E=5 | ~98% |
+| 2 | Architecture | + Dropout, 64 filters | LR=0.001, BS=128, E=5 | ~98.5% |
+| 3 | Optimization | Same as Run 2 | LR=0.0005, BS=64, E=5 | ~99%+ |
 
-### API Endpoints
+**View Results**: `mlflow ui` → http://localhost:5000
 
-- `GET /` - Web UI
-- `POST /predict` - Prediction API
-  ```json
-  {
-    "image": "base64_encoded_image_data"
-  }
-  ```
-- `GET /health` - Health check
+## 🌐 API Documentation
 
-## 🐳 Phase 3: Docker Deployment
+### Endpoints
 
-### Build Docker Image
+#### Health Check
+```bash
+curl http://localhost:8000/health
+```
+Response:
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "model_name": "Mnist_Best_Model",
+  "model_version": "1"
+}
+```
+
+#### Prediction
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"image": "data:image/png;base64,..."}'
+```
+Response:
+```json
+{
+  "prediction": 5,
+  "confidence": 0.9876,
+  "probabilities": [0.001, 0.002, ..., 0.9876, ...]
+}
+```
+
+#### Interactive API Docs
+- **Swagger UI**: http://localhost:8000/api/docs
+- **ReDoc**: http://localhost:8000/api/redoc
+
+### Monitoring
+
+#### Prometheus Metrics
+```bash
+curl http://localhost:8000/metrics
+```
+
+Available metrics:
+- `predictions_total` - Total predictions by class
+- `prediction_latency_seconds` - Request latency histogram
+- `prediction_confidence` - Model confidence gauge
+- `api_requests_total` - API request count by endpoint
+- `active_requests` - Currently active requests
+
+## 🧪 Testing
+
+### Run Tests
 
 ```bash
-docker build -t mlops-mnist:latest .
+# All tests with coverage
+pytest --cov=src --cov-report=html
+
+# Specific test types
+pytest tests/unit/          # Unit tests
+pytest tests/integration/   # Integration tests
+pytest tests/e2e/          # End-to-end tests
+
+# With markers
+pytest -m "not slow"       # Skip slow tests
+pytest -v                  # Verbose output
 ```
 
-### Run Container
+### Code Quality
 
 ```bash
-docker run -p 5000:5000 mlops-mnist:latest
+# Format code
+black .
+isort .
+
+# Lint
+flake8 .
+pylint src/
+
+# Type check
+mypy src/
+
+# All checks (pre-commit)
+pre-commit run --all-files
 ```
 
-### Push to Docker Hub
+### Coverage Report
+After running tests, open `htmlcov/index.html` for detailed coverage report.
+
+## 🐳 Docker & Deployment
+
+### Local Development
 
 ```bash
-docker tag mlops-mnist:latest <your-dockerhub-username>/mlops-mnist:latest
-docker push <your-dockerhub-username>/mlops-mnist:latest
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f api
+
+# Stop services
+docker-compose down
+
+# Rebuild after code changes
+docker-compose up -d --build
 ```
 
-## 🔄 Phase 4: CI/CD with GitHub Actions
+### Production Deployment
 
-### Setup
+```bash
+# Build production image
+docker build -t mlops-mnist:v1.0.0 .
 
-1. **Create Docker Hub account** and repository `mlops-mnist`
+# Run with environment variables
+docker run -d \
+  -p 8000:8000 \
+  -e MLFLOW_TRACKING_URI=http://mlflow-server:5000 \
+  -e MODEL_NAME=Mnist_Best_Model \
+  mlops-mnist:v1.0.0
 
-2. **Configure GitHub Secrets**:
-   - Go to: `Settings → Secrets and variables → Actions`
-   - Add secrets:
-     - `DOCKER_USERNAME`: Your Docker Hub username
-     - `DOCKER_PASSWORD`: Your Docker Hub password/token
+# Check health
+docker ps
+curl http://localhost:8000/health
+```
 
-3. **Push to GitHub**:
+### Monitoring Stack (Optional)
+
+```bash
+# Start with Prometheus & Grafana
+docker-compose --profile monitoring up -d
+
+# Access services
+# - API: http://localhost:8000
+# - MLflow: http://localhost:5000
+# - Prometheus: http://localhost:9090
+# - Grafana: http://localhost:3000 (admin/admin)
+```
+
+## 🔄 CI/CD Pipeline
+
+### GitHub Actions Workflow
+
+Automated on every push to `main`:
+
+1. **Lint Stage**
+   - Black formatting check
+   - isort import sorting
+   - Flake8 style guide
+   - MyPy type checking
+
+2. **Test Stage**
+   - Unit tests with coverage
+   - Integration tests
+   - Coverage upload to Codecov
+
+3. **Security Stage**
+   - Safety dependency scan
+   - pip-audit vulnerability check
+
+4. **Build & Push Stage**
+   - Multi-stage Docker build
+   - Push to Docker Hub
+   - Tag with SHA and latest
+   - Trivy security scan
+
+### Setup CI/CD
+
+1. Add GitHub Secrets:
+   ```
+   DOCKER_USERNAME: your-dockerhub-username
+   DOCKER_PASSWORD: your-dockerhub-token
+   ```
+
+2. Push to trigger:
    ```bash
-   git add .
-   git commit -m "Initial MLOps project setup"
    git push origin main
    ```
 
-### Automatic Deployment
+3. Monitor: `Actions` tab in GitHub repo
 
-Every push to `main` branch will:
-1. Trigger GitHub Actions workflow
-2. Build Docker image
-3. Push to Docker Hub
-4. Tag with `latest` and commit SHA
+## 📚 Documentation
 
-Monitor builds at: `https://github.com/<username>/MLOps/actions`
+Full documentation available in `docs/`:
 
-## 📈 Experiment Results
+- **[Installation Guide](docs/INSTALLATION.md)** - Detailed setup instructions
+- **[Getting Started](docs/GETTING_STARTED.md)** - Quick 5-minute tutorial
+- **[Commands Reference](docs/COMMANDS.md)** - All CLI commands
+- **[Setup Guide](docs/SETUP_GUIDE.md)** - Step-by-step checklist
+- **[Project Summary](docs/PROJECT_SUMMARY.md)** - Implementation status
 
-### Run Comparison
+## 🛠️ Development
 
-| Run | Architecture | Hyperparameters | Test Accuracy |
-|-----|-------------|-----------------|---------------|
-| 1 | Baseline (1 Conv2D) | LR=0.001, BS=128 | ~98% |
-| 2 | + Dropout, More Filters | LR=0.001, BS=128 | ~98.5% |
-| 3 | Same as Run 2 | LR=0.0005, BS=64 | ~99%+ |
+### Project Guidelines
+
+See [`.github/copilot-instructions.md`](.github/copilot-instructions.md) for:
+- Coding standards (PEP 8, type hints, docstrings)
+- Architecture patterns (microservices, API-first)
+- Security best practices
+- Testing requirements (80% coverage)
+- MLOps workflow (baseline → optimize → deploy)
+
+### Adding New Features
+
+1. Create feature branch: `git checkout -b feature/your-feature`
+2. Write tests first (TDD)
+3. Implement feature with type hints and docstrings
+4. Run linting: `pre-commit run --all-files`
+5. Run tests: `pytest --cov=src`
+6. Create pull request
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- TensorFlow & Keras teams for ML framework
+- MLflow for experiment tracking
+- FastAPI for modern API framework
+- Docker for containerization
+
+---
+
+<div align="center">
+
+**Built with ❤️ using Enterprise MLOps Best Practices**
+
+[⬆ Back to Top](#enterprise-mlops-mnist-classification-system)
+
+</div>
 
 **Reasoning:**
 - **Run 1**: Establishes baseline performance
