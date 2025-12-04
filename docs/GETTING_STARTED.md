@@ -44,7 +44,7 @@ If you prefer to run each step manually:
 
 ```bash
 # Create virtual environment (if not already done)
-python3.11 -m venv venv
+python3.11 -m venv .venv
 
 # Activate it
 source venv/bin/activate          # Mac/Linux

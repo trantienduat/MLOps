@@ -8,11 +8,11 @@
 
 ```bash
 # Create virtual environment
-python3.11 -m venv venv
+python3.11 -m venv .venv
 
 # Activate virtual environment
-source venv/bin/activate          # Mac/Linux
-venv\Scripts\activate             # Windows
+source .venv/bin/activate          # Mac/Linux
+.venv\Scripts\activate             # Windows
 
 # Deactivate virtual environment
 deactivate
@@ -223,7 +223,7 @@ git branch -a                    # All branches including remote
 python --version
 
 # Check if in virtual environment
-which python                     # Should show path to venv
+which python                     # Should show path to .venv
 
 # List installed packages
 pip list
@@ -318,8 +318,8 @@ dir filename.py                  # Windows
 
 ```bash
 # 1. Setup
-python3.11 -m venv venv
-source venv/bin/activate
+python3.11 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 python scripts/test_setup.py
 
@@ -357,7 +357,7 @@ git push origin main
 lsof -ti:5000 | xargs kill -9
 
 # Issue: Virtual environment not activated
-source venv/bin/activate
+source .venv/bin/activate
 
 # Issue: Module not found
 pip install -r requirements.txt
@@ -382,7 +382,7 @@ mlflow ui --backend-store-uri ./mlruns
 
 ```bash
 # Create alias for common commands (add to ~/.zshrc or ~/.bashrc)
-alias venv='source venv/bin/activate'
+alias venv='source .venv/bin/activate'
 alias mlflow-ui='mlflow ui'
 alias run-app='python src/app.py'
 alias run-train='python src/train.py'

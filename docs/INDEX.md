@@ -233,7 +233,7 @@ Welcome to the MLOps MNIST project! This index helps you find the right document
 
 ```bash
 # Setup (once)
-python3.11 -m venv venv && source venv/bin/activate
+python3.11 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 # Train

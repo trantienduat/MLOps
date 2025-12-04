@@ -8,7 +8,7 @@ The project requires TensorFlow and other dependencies to be installed in a virt
 
 ```bash
 # 1. Create virtual environment with Python 3.11
-python3.11 -m venv venv
+python3.11 -m venv .venv
 
 # 2. Activate virtual environment
 source venv/bin/activate          # Mac/Linux
@@ -68,7 +68,7 @@ pip install tensorflow-metal  # For GPU acceleration
 ```bash
 # Create fresh virtual environment
 rm -rf venv
-python3.11 -m venv venv
+python3.11 -m venv .venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -143,7 +143,7 @@ All versions are tested and compatible with Python 3.11.
 1. **Delete and recreate virtual environment**:
    ```bash
    rm -rf venv
-   python3.11 -m venv venv
+   python3.11 -m venv .venv
    source venv/bin/activate
    pip install --upgrade pip
    pip install -r requirements.txt
