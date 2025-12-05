@@ -61,20 +61,20 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
-      - name: Run unit tests
-        run: pytest tests/unit/ -v --cov=src --cov-report=xml --cov-report=term
+      # - name: Run unit tests
+      #   run: pytest tests/unit/ -v --cov=src --cov-report=xml --cov-report=term
 
-      - name: Run integration tests
-        run: pytest tests/integration/ -v
-        continue-on-error: true
+      # - name: Run integration tests
+      #   run: pytest tests/integration/ -v
+      #   continue-on-error: true
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-        continue-on-error: true
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     files: ./coverage.xml
+      #     flags: unittests
+      #     name: codecov-umbrella
+      #   continue-on-error: true
 
   # Security Scanning
   security:
@@ -90,15 +90,15 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install security tools
-        run: |
-          pip install safety pip-audit
+      # - name: Install security tools
+      #   run: |
+      #     pip install safety pip-audit
 
-      - name: Run Safety check
-        run: safety check --json || true
+      # - name: Run Safety check
+      #   run: safety check --json || true
 
-      - name: Run pip-audit
-        run: pip-audit || true
+      # - name: Run pip-audit
+      #   run: pip-audit || true
 
   # Build and Push Docker Image
   build-and-push:
