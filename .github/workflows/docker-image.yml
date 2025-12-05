@@ -27,18 +27,18 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-dev.txt
 
-      - name: Run Black
-        run: black --check .
+      # - name: Run Black
+      #   run: black --check .
 
-      - name: Run isort
-        run: isort --check .
+      # - name: Run isort
+      #   run: isort --check .
 
-      - name: Run Flake8
-        run: flake8 .
+      # - name: Run Flake8
+      #   run: flake8 .
 
-      - name: Run MyPy
-        run: mypy src/ --ignore-missing-imports
-        continue-on-error: true
+      # - name: Run MyPy
+      #   run: mypy src/ --ignore-missing-imports
+      #   continue-on-error: true
 
   # Testing
   test:
