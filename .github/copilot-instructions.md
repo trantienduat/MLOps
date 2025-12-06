@@ -63,7 +63,7 @@
 - ✅ **Error Handling**: Explicit exceptions, never bare `except:`
 - ✅ **Logging**: Use `logging` module, structured logs (JSON in production)
 - ✅ **Configuration**: Environment-based, never hardcode credentials
-- ✅ **Testing**: Minimum 80% code coverage
+- ✅ **Testing**: ≥80% code coverage required
 - ✅ **Linting**: Black, isort, flake8, mypy in pre-commit hooks
 
 ### Code Quality Tools
