@@ -414,16 +414,12 @@ curl http://localhost:8000/metrics
 
 ### Postman Collection
 
-**Import URL**:
-```
-https://www.postman.com/collections/<collection_id>
-```
+**Coming Soon**: Postman collection will be published and linked here.
 
-**Collection Structure**:
-- GET Health Check
-- POST Predict Digit
-- GET Metrics
-- GET API Docs
+To create your own collection:
+1. Import OpenAPI spec from `/openapi.json`
+2. Or manually create requests for each endpoint
+3. Save as collection for team sharing
 
 ---
 

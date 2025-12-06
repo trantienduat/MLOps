@@ -45,8 +45,10 @@ The MNIST ML pipeline implements a systematic approach to model development thro
 ### Data Preprocessing Pipeline
 
 ```python
-# 1. Load Dataset
 from tensorflow.keras.datasets import mnist
+from tensorflow.keras.utils import to_categorical
+
+# 1. Load Dataset
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
 # 2. Normalization
@@ -58,7 +60,6 @@ x_train = x_train.reshape(-1, 28, 28, 1)  # Add channel dimension
 x_test = x_test.reshape(-1, 28, 28, 1)
 
 # 4. One-Hot Encoding Labels
-from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train, 10)
 y_test = to_categorical(y_test, 10)
 ```

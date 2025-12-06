@@ -474,13 +474,13 @@ src/
 
 | Layer | Technology | Version | Purpose |
 |-------|-----------|---------|---------|
-| **ML Framework** | TensorFlow | 2.15+ | Model training and inference |
-| **Experiment Tracking** | MLflow | 2.9+ | Experiment logging and model registry |
-| **API Framework** | FastAPI | 0.109+ | RESTful API with auto-docs |
-| **ASGI Server** | Uvicorn | 0.27+ | Async web server |
-| **Production Server** | Gunicorn | 21.2+ | Production WSGI server |
-| **Data Validation** | Pydantic | 2.5+ | Request/response validation |
-| **Monitoring** | Prometheus Client | 0.19+ | Metrics exposition |
+| **ML Framework** | TensorFlow | 2.15.0 | Model training and inference |
+| **Experiment Tracking** | MLflow | 2.9.2 | Experiment logging and model registry |
+| **API Framework** | FastAPI | 0.109.0 | RESTful API with auto-docs |
+| **ASGI Server** | Uvicorn | 0.27.0 | Async web server |
+| **Production Server** | Gunicorn | 21.2.0 | Production WSGI server |
+| **Data Validation** | Pydantic | 2.5.3 | Request/response validation |
+| **Monitoring** | Prometheus Client | 0.19.0 | Metrics exposition |
 | **Container Runtime** | Docker | 20.10+ | Containerization |
 | **Orchestration** | Docker Compose | 2.0+ | Local multi-container deployment |
 

@@ -174,13 +174,13 @@ docker exec -it mnist-api bash
 # Login
 docker login
 
-# Tag image
-docker tag mlops-mnist:latest <username>/mlops-mnist:latest
-docker tag mlops-mnist:latest <username>/mlops-mnist:v1.0.0
+# Tag image for Docker Hub
+docker tag mlops-mnist:latest YOUR_USERNAME/mlops-mnist:latest
+docker tag mlops-mnist:latest YOUR_USERNAME/mlops-mnist:v1.0.0
 
-# Push
-docker push <username>/mlops-mnist:latest
-docker push <username>/mlops-mnist:v1.0.0
+# Push to Docker Hub
+docker push YOUR_USERNAME/mlops-mnist:latest
+docker push YOUR_USERNAME/mlops-mnist:v1.0.0
 ```
 
 ---

@@ -27,7 +27,8 @@ Comprehensive architecture documentation following the C4 model:
 - Performance Considerations
 - Deployment Patterns
 
-**Target Audience**: Architects, Tech Leads, Senior Engineers  
+**Target Audience**: Architects, Tech Leads, Senior Engineers
+
 **Topics**: System design, technical architecture, C4 diagrams, infrastructure
 
 ---
@@ -47,7 +48,8 @@ Detailed documentation of the ML training pipeline:
 - Performance Benchmarks
 - Troubleshooting
 
-**Target Audience**: Data Scientists, ML Engineers  
+**Target Audience**: Data Scientists, ML Engineers
+
 **Topics**: Model training, experimentation, MLflow, hyperparameter tuning
 
 ---
@@ -69,7 +71,8 @@ Complete API reference and usage guide:
 - OpenAPI Specification
 - Best Practices
 
-**Target Audience**: Application Developers, Frontend Engineers, API Consumers  
+**Target Audience**: Application Developers, Frontend Engineers, API Consumers
+
 **Topics**: API endpoints, request/response formats, integration examples
 
 ---
@@ -93,7 +96,8 @@ Comprehensive deployment strategies and operations:
 - Troubleshooting
 - Security Checklist
 
-**Target Audience**: DevOps Engineers, SREs, Platform Engineers  
+**Target Audience**: DevOps Engineers, SREs, Platform Engineers
+
 **Topics**: Deployment, operations, monitoring, CI/CD, infrastructure
 
 ---
