@@ -643,7 +643,7 @@ Clear description of the feature or bug fix needed
 
 ## Acceptance Criteria
 - [ ] Criterion 1 (e.g., "API endpoint returns 200 status")
-- [ ] Criterion 2 (e.g., "Unit tests have >80% coverage")
+- [ ] Criterion 2 (e.g., "Unit tests have ≥80% coverage")
 - [ ] Criterion 3 (e.g., "Documentation updated")
 
 ## Files to Modify
