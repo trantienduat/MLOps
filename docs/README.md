@@ -1,314 +1,315 @@
-# MLOps MNIST Digit Recognition Project
+# Technical Documentation
 
-A complete MLOps project demonstrating machine learning workflow with experiment tracking, model registry, web deployment, and CI/CD pipeline.
-
-## 🎯 Project Overview
-
-This project implements an end-to-end MLOps pipeline for MNIST digit recognition:
-- **Training Pipeline**: Multiple experiment runs with MLflow tracking
-- **Model Registry**: Best model selection and versioning
-- **Web Application**: Interactive digit drawing and prediction
-- **Containerization**: Docker support for easy deployment
-- **CI/CD**: Automated builds and deployment with GitHub Actions
-
-## 📋 Features
-
-- ✅ Three experimental runs with different architectures and hyperparameters
-- ✅ MLflow experiment tracking and model registry
-- ✅ Interactive web UI for drawing and prediction
-- ✅ RESTful API for predictions
-- ✅ Docker containerization
-- ✅ GitHub Actions CI/CD pipeline
-- ✅ Production-ready Flask application
-
-## 🛠️ Tech Stack
-
-- **Python 3.11**
-- **TensorFlow 2.15** - Deep learning framework
-- **MLflow 2.9** - Experiment tracking and model registry
-- **Flask 3.0** - Web framework
-- **Docker** - Containerization
-- **GitHub Actions** - CI/CD
-
-## 📁 Project Structure
-
-```
-MLOps/
-├── .github/
-│   └── workflows/
-│       └── docker-image.yml    # CI/CD workflow
-├── docs/                       # All documentation and guides
-│   ├── README.md              # Main documentation
-│   ├── GETTING_STARTED.md     # Quick start guide
-│   ├── SETUP_GUIDE.md         # Detailed setup
-│   ├── INSTALLATION.md        # Install & troubleshooting
-│   ├── COMMANDS.md            # Command reference
-│   ├── PROJECT_SUMMARY.md     # Implementation status
-│   └── INDEX.md               # Documentation index
-├── scripts/                    # Helper scripts
-│   ├── test_setup.py          # Environment verification
-│   ├── verify_env.py          # Package check
-│   ├── register_model.py      # Model registration
-│   ├── quick_start.py         # Interactive guide
-│   ├── run_pipeline.sh        # Pipeline runner (Unix)
-│   └── run_pipeline.bat       # Pipeline runner (Windows)
-├── src/                        # Source code
-│   ├── train.py               # Training script (3 runs)
-│   └── app.py                 # Flask application
-├── templates/
-│   └── index.html             # Web UI
-├── mlruns/                    # MLflow tracking data
-├── requirements.txt           # Python dependencies
-├── Dockerfile                 # Docker configuration
-└── README.md                  # Project overview
-```
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.11
-- pip
-- (Optional) Docker for containerization
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd MLOps
-   ```
-
-2. **Create virtual environment**
-   ```bash
-   python3.11 -m venv .venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## 📊 Phase 1: Training & Experimentation
-
-### Run Training Pipeline
-
-Execute the training script to run all three experiments:
-
-```bash
-python src/train.py
-```
-
-This will create three runs:
-- **Run 1 (Baseline)**: Simple CNN with 1 Conv2D layer
-- **Run 2 (Improved Architecture)**: Added Dropout and increased filters
-- **Run 3 (Hyperparameter Tuning)**: Optimized learning rate and batch size
-
-### View Experiments in MLflow UI
-
-```bash
-mlflow ui
-```
-
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
-
-### Register Best Model
-
-1. Open MLflow UI
-2. Compare runs by metrics (accuracy, loss)
-3. Select the best performing run
-4. Click "Register Model"
-5. Name: `Mnist_Best_Model`
-6. Stage: `Production`
-
-## 🌐 Phase 2: Web Application
-
-### Run Flask App Locally
-
-```bash
-python src/app.py
-```
-
-Visit [http://127.0.0.1:5000](http://127.0.0.1:5000) to:
-- Draw digits on the canvas
-- Get real-time predictions
-- View confidence scores for all digits
-
-### API Endpoints
-
-- `GET /` - Web UI
-- `POST /predict` - Prediction API
-  ```json
-  {
-    "image": "base64_encoded_image_data"
-  }
-  ```
-- `GET /health` - Health check
-
-## 🐳 Phase 3: Docker Deployment
-
-### Build Docker Image
-
-```bash
-docker build -t mlops-mnist:latest .
-```
-
-### Run Container
-
-```bash
-docker run -p 5000:5000 mlops-mnist:latest
-```
-
-### Push to Docker Hub
-
-```bash
-docker tag mlops-mnist:latest <your-dockerhub-username>/mlops-mnist:latest
-docker push <your-dockerhub-username>/mlops-mnist:latest
-```
-
-## 🔄 Phase 4: CI/CD with GitHub Actions
-
-### Setup
-
-1. **Create Docker Hub account** and repository `mlops-mnist`
-
-2. **Configure GitHub Secrets**:
-   - Go to: `Settings → Secrets and variables → Actions`
-   - Add secrets:
-     - `DOCKER_USERNAME`: Your Docker Hub username
-     - `DOCKER_PASSWORD`: Your Docker Hub password/token
-
-3. **Push to GitHub**:
-   ```bash
-   git add .
-   git commit -m "Initial MLOps project setup"
-   git push origin main
-   ```
-
-### Automatic Deployment
-
-Every push to `main` branch will:
-1. Trigger GitHub Actions workflow
-2. Build Docker image
-3. Push to Docker Hub
-4. Tag with `latest` and commit SHA
-
-Monitor builds at: `https://github.com/<username>/MLOps/actions`
-
-## 📈 Experiment Results
-
-### Run Comparison
-
-| Run | Architecture | Hyperparameters | Test Accuracy |
-|-----|-------------|-----------------|---------------|
-| 1 | Baseline (1 Conv2D) | LR=0.001, BS=128 | ~98% |
-| 2 | + Dropout, More Filters | LR=0.001, BS=128 | ~98.5% |
-| 3 | Same as Run 2 | LR=0.0005, BS=64 | ~99%+ |
-
-**Reasoning:**
-- **Run 1**: Establishes baseline performance
-- **Run 2**: Dropout prevents overfitting, more filters capture complex patterns
-- **Run 3**: Smaller learning rate and batch size improve convergence
-
-## 🧪 Testing
-
-### Test the Web Application
-
-1. Open [http://127.0.0.1:5000](http://127.0.0.1:5000)
-2. Draw digits: 3, 5, 7
-3. Click "Predict"
-4. Verify predictions are correct
-
-### Test the API
-
-```bash
-curl -X POST http://127.0.0.1:5000/predict \
-  -H "Content-Type: application/json" \
-  -d '{"image": "base64_image_data"}'
-```
-
-## 📝 Documentation
-
-### Training Parameters
-
-**Run 1 - Baseline:**
-- Layers: Conv2D(32) → MaxPool → Dense(10)
-- Epochs: 5
-- Learning Rate: 0.001
-- Batch Size: 128
-
-**Run 2 - Architecture Improvement:**
-- Layers: Conv2D(64) → MaxPool → Dropout(0.25) → Dense(128) → Dropout(0.5) → Dense(10)
-- Epochs: 5
-- Learning Rate: 0.001
-- Batch Size: 128
-
-**Run 3 - Hyperparameter Tuning:**
-- Same architecture as Run 2
-- Epochs: 5
-- Learning Rate: 0.0005 (reduced)
-- Batch Size: 64 (smaller)
-
-## 🐛 Troubleshooting
-
-### Model Not Loading
-```bash
-# Train models first
-python src/train.py
-
-# Then register the best model in MLflow UI
-mlflow ui
-```
-
-### Port Already in Use
-```bash
-# Kill process on port 5000
-lsof -ti:5000 | xargs kill -9
-
-# Or use different port
-python src/app.py --port 8000
-```
-
-### Docker Build Issues
-```bash
-# Clear Docker cache
-docker system prune -a
-
-# Rebuild without cache
-docker build --no-cache -t mlops-mnist .
-```
-
-## 📚 Learning Resources
-
-- [MLflow Documentation](https://mlflow.org/docs/latest/index.html)
-- [TensorFlow Guide](https://www.tensorflow.org/guide)
-- [Flask Documentation](https://flask.palletsprojects.com/)
-- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
-
-## 🎓 Project Highlights
-
-This project demonstrates:
-1. **Experiment Tracking**: Systematic comparison of model architectures
-2. **Model Registry**: Version control and staging for ML models
-3. **MLOps Best Practices**: Reproducibility, versioning, automation
-4. **Full-Stack ML**: From training to deployment
-5. **DevOps Integration**: CI/CD for ML applications
-
-## 📄 License
-
-This project is created for educational purposes.
-
-## 👤 Author
-
-Created as part of MLOps learning curriculum.
-
-## 🙏 Acknowledgments
-
-- MNIST Dataset: Yann LeCun et al.
-- MLflow: Databricks
-- TensorFlow: Google
+> **Enterprise MLOps MNIST Classification System - Technical Documentation**
 
 ---
 
-**Happy Learning! 🚀**
+## 📚 Documentation Structure
+
+This directory contains comprehensive technical documentation for the MLOps MNIST system. The documentation is organized by topic to provide clear, focused information for different aspects of the system.
+
+---
+
+## 📖 Available Documentation
+
+### [ARCHITECTURE.md](ARCHITECTURE.md)
+**System Architecture and Design**
+
+Comprehensive architecture documentation following the C4 model:
+- System Context Diagram (Level 1)
+- Container Diagram (Level 2)
+- Component Diagram (Level 3)
+- Code Organization (Level 4)
+- ML Pipeline Architecture
+- Technology Stack
+- Data Flow
+- Security Architecture
+- Performance Considerations
+- Deployment Patterns
+
+**Target Audience**: Architects, Tech Leads, Senior Engineers
+
+**Topics**: System design, technical architecture, C4 diagrams, infrastructure
+
+---
+
+### [ML_PIPELINE.md](ML_PIPELINE.md)
+**Machine Learning Training Pipeline**
+
+Detailed documentation of the ML training pipeline:
+- Dataset Characteristics (MNIST)
+- Data Preprocessing
+- Model Architectures (3 runs)
+- Training Strategy & Hyperparameters
+- Experiment Tracking with MLflow
+- Model Evaluation Metrics
+- Best Practices for ML Development
+- Code Examples
+- Performance Benchmarks
+- Troubleshooting
+
+**Target Audience**: Data Scientists, ML Engineers
+
+**Topics**: Model training, experimentation, MLflow, hyperparameter tuning
+
+---
+
+### [API.md](API.md)
+**REST API Documentation**
+
+Complete API reference and usage guide:
+- Endpoint Documentation
+  - Health Check
+  - Digit Prediction
+  - Metrics Exposition
+- Request/Response Schemas
+- Data Models (Pydantic)
+- Error Handling
+- Rate Limiting (planned)
+- Code Examples (Python, JavaScript, cURL)
+- Performance Metrics
+- OpenAPI Specification
+- Best Practices
+
+**Target Audience**: Application Developers, Frontend Engineers, API Consumers
+
+**Topics**: API endpoints, request/response formats, integration examples
+
+---
+
+### [DEPLOYMENT.md](DEPLOYMENT.md)
+**Production Deployment Guide**
+
+Comprehensive deployment strategies and operations:
+- Local Development Setup
+- Docker Deployment
+- Docker Compose Multi-Service
+- Kubernetes Deployment
+  - Manifests (Deployment, Service, HPA, ConfigMap)
+  - Scaling Strategies
+- Cloud Deployments
+  - AWS ECS
+  - Google Cloud Run
+  - Azure Container Instances
+- CI/CD Pipeline (GitHub Actions)
+- Monitoring Setup (Prometheus, Grafana)
+- Troubleshooting
+- Security Checklist
+
+**Target Audience**: DevOps Engineers, SREs, Platform Engineers
+
+**Topics**: Deployment, operations, monitoring, CI/CD, infrastructure
+
+---
+
+## 🎯 Quick Navigation
+
+### I want to...
+
+**Understand the system architecture**
+→ Read [ARCHITECTURE.md](ARCHITECTURE.md)
+
+**Train and improve ML models**
+→ Read [ML_PIPELINE.md](ML_PIPELINE.md)
+
+**Integrate with the API**
+→ Read [API.md](API.md)
+
+**Deploy to production**
+→ Read [DEPLOYMENT.md](DEPLOYMENT.md)
+
+---
+
+## 🏗️ Architecture Overview
+
+```
+┌─────────────────────────────────────────────────┐
+│         MLOps MNIST Platform                     │
+│                                                  │
+│  ┌────────────┐  ┌────────────┐  ┌───────────┐│
+│  │ Training   │  │ API        │  │ Monitoring││
+│  │ Pipeline   │  │ Service    │  │ Stack     ││
+│  │            │  │            │  │           ││
+│  │ TensorFlow │  │ FastAPI    │  │Prometheus ││
+│  │ + MLflow   │  │ + Gunicorn │  │+ Grafana  ││
+│  └────────────┘  └────────────┘  └───────────┘│
+│         │                │              │       │
+│         └────────────────┴──────────────┘       │
+│                     │                            │
+│              ┌──────▼──────┐                    │
+│              │   MLflow    │                    │
+│              │   Server    │                    │
+│              └─────────────┘                    │
+└─────────────────────────────────────────────────┘
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed C4 diagrams.
+
+---
+
+## 🔄 ML Workflow
+
+```
+Data → Preprocessing → Training → Evaluation → Registry → Serving
+  │         │             │           │          │         │
+  │         │             │           │          │         │
+MNIST   Normalize    3 Experiments  Compare   MLflow   FastAPI
+        Reshape      (Runs 1-3)    Metrics   Models   Endpoint
+```
+
+See [ML_PIPELINE.md](ML_PIPELINE.md) for detailed workflow.
+
+---
+
+## 🌐 API Endpoints
+
+```
+GET  /health          → Health check
+POST /predict         → Digit prediction
+GET  /                → Web UI
+GET  /metrics         → Prometheus metrics
+GET  /api/docs        → Swagger UI
+GET  /api/redoc       → ReDoc UI
+```
+
+See [API.md](API.md) for complete API reference.
+
+---
+
+## 🚀 Deployment Options
+
+| Environment | Documentation | Complexity | Production-Ready |
+|-------------|---------------|------------|------------------|
+| Local Development | [DEPLOYMENT.md](DEPLOYMENT.md#local-development) | Low | No |
+| Docker | [DEPLOYMENT.md](DEPLOYMENT.md#docker-deployment) | Medium | Yes |
+| Docker Compose | [DEPLOYMENT.md](DEPLOYMENT.md#docker-compose) | Medium | Yes |
+| Kubernetes | [DEPLOYMENT.md](DEPLOYMENT.md#kubernetes-deployment) | High | Yes |
+| Cloud (AWS/GCP/Azure) | [DEPLOYMENT.md](DEPLOYMENT.md#cloud-deployments) | High | Yes |
+
+---
+
+## 🛠️ Technology Stack
+
+**Core Technologies:**
+- **ML Framework**: TensorFlow 2.15+
+- **Experiment Tracking**: MLflow 2.9+
+- **API Framework**: FastAPI 0.109+
+- **Server**: Gunicorn + Uvicorn
+- **Monitoring**: Prometheus + Grafana
+- **Container**: Docker + Docker Compose
+- **Orchestration**: Kubernetes (production)
+
+See [ARCHITECTURE.md](ARCHITECTURE.md#technology-stack) for complete stack.
+
+---
+
+## 📊 Model Performance
+
+| Run | Architecture | Test Accuracy | Purpose |
+|-----|--------------|---------------|---------|
+| 1 | Baseline CNN | ~98.0% | Establish baseline |
+| 2 | Enhanced CNN | ~98.5% | Improve architecture |
+| 3 | Optimized | ~99.0%+ | Tune hyperparameters |
+
+See [ML_PIPELINE.md](ML_PIPELINE.md#expected-results) for details.
+
+---
+
+## 🔒 Security
+
+**Multi-Layer Security:**
+- Container security (non-root, multi-stage build)
+- Dependency scanning (safety, pip-audit)
+- Image scanning (Trivy)
+- Input validation (Pydantic)
+- Secrets management (.env, GitHub Secrets)
+- Network isolation
+- HTTPS ready
+
+See [ARCHITECTURE.md](ARCHITECTURE.md#security-architecture) for security details.
+
+---
+
+## 📈 Monitoring
+
+**Key Metrics:**
+- `predictions_total` - Counter by prediction class
+- `prediction_latency_seconds` - Histogram of latency
+- `prediction_confidence` - Gauge of model confidence
+- `api_requests_total` - Request counter
+- `active_requests` - Active request gauge
+
+See [DEPLOYMENT.md](DEPLOYMENT.md#monitoring) for monitoring setup.
+
+---
+
+## 🧪 Testing
+
+**Test Coverage:**
+- Unit tests (pytest)
+- Integration tests (API testing)
+- End-to-end tests (pipeline testing)
+- Coverage target: 80%+
+
+**Code Quality:**
+- Black (formatting)
+- isort (import sorting)
+- flake8 (linting)
+- mypy (type checking)
+- pylint (code analysis)
+
+See [ARCHITECTURE.md](ARCHITECTURE.md#technology-stack) for tools.
+
+---
+
+## 📝 Additional Resources
+
+### External Documentation
+- [MLflow Documentation](https://mlflow.org/docs/latest/)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [TensorFlow Guide](https://www.tensorflow.org/guide)
+- [Docker Documentation](https://docs.docker.com/)
+- [Kubernetes Documentation](https://kubernetes.io/docs/)
+- [Prometheus Documentation](https://prometheus.io/docs/)
+
+### Best Practices
+- [Google MLOps Best Practices](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
+- [AWS Well-Architected ML Lens](https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html)
+- [Microsoft MLOps](https://docs.microsoft.com/en-us/azure/machine-learning/concept-model-management-and-deployment)
+
+---
+
+## 🤝 Contributing
+
+When contributing documentation:
+1. Follow existing structure and format
+2. Include code examples where appropriate
+3. Add diagrams for complex concepts
+4. Update this README if adding new docs
+5. Keep language clear and concise
+6. Focus on technical accuracy
+
+---
+
+## 📞 Support
+
+For questions about:
+- **Architecture**: See [ARCHITECTURE.md](ARCHITECTURE.md)
+- **ML Pipeline**: See [ML_PIPELINE.md](ML_PIPELINE.md)
+- **API Integration**: See [API.md](API.md)
+- **Deployment**: See [DEPLOYMENT.md](DEPLOYMENT.md)
+
+For issues not covered in documentation, please open a GitHub issue.
+
+---
+
+**Documentation Version**: 1.0  
+**Last Updated**: December 2025  
+**Maintained By**: MLOps Team
+
+---
+
+**Quick Links:**
+- [Main README](../README.md)
+- [GitHub Repository](https://github.com/trantienduat/MLOps)
+- [Project Guidelines](../.github/copilot-instructions.md)
