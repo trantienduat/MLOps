@@ -337,13 +337,12 @@ Automated on every push to `main`:
 
 ## 📚 Documentation
 
-Full documentation available in `docs/`:
+Comprehensive technical documentation:
 
-- **[Installation Guide](docs/INSTALLATION.md)** - Detailed setup instructions
-- **[Getting Started](docs/GETTING_STARTED.md)** - Quick 5-minute tutorial
-- **[Commands Reference](docs/COMMANDS.md)** - All CLI commands
-- **[Setup Guide](docs/SETUP_GUIDE.md)** - Step-by-step checklist
-- **[Project Summary](docs/PROJECT_SUMMARY.md)** - Implementation status
+- **[Architecture](docs/ARCHITECTURE.md)** - System architecture with C4 diagrams
+- **[ML Pipeline](docs/ML_PIPELINE.md)** - Model training and experimentation
+- **[API Documentation](docs/API.md)** - REST API reference and examples
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Production deployment strategies
 
 ## 🛠️ Development
 
@@ -394,109 +393,19 @@ This project is licensed under the MIT License.
 
 </div>
 
-**Reasoning:**
-- **Run 1**: Establishes baseline performance
-- **Run 2**: Dropout prevents overfitting, more filters capture complex patterns
-- **Run 3**: Smaller learning rate and batch size improve convergence
-
-## 🧪 Testing
-
-### Test the Web Application
-
-1. Open [http://127.0.0.1:5000](http://127.0.0.1:5000)
-2. Draw digits: 3, 5, 7
-3. Click "Predict"
-4. Verify predictions are correct
-
-### Test the API
-
-```bash
-curl -X POST http://127.0.0.1:5000/predict \
-  -H "Content-Type: application/json" \
-  -d '{"image": "base64_image_data"}'
-```
-
-## 📝 Documentation
-
-### Training Parameters
-
-**Run 1 - Baseline:**
-- Layers: Conv2D(32) → MaxPool → Dense(10)
-- Epochs: 5
-- Learning Rate: 0.001
-- Batch Size: 128
-
-**Run 2 - Architecture Improvement:**
-- Layers: Conv2D(64) → MaxPool → Dropout(0.25) → Dense(128) → Dropout(0.5) → Dense(10)
-- Epochs: 5
-- Learning Rate: 0.001
-- Batch Size: 128
-
-**Run 3 - Hyperparameter Tuning:**
-- Same architecture as Run 2
-- Epochs: 5
-- Learning Rate: 0.0005 (reduced)
-- Batch Size: 64 (smaller)
-
-## 🐛 Troubleshooting
-
-### Model Not Loading
-```bash
-# Train models first
-python train.py
-
-# Then register the best model in MLflow UI
-mlflow ui
-```
-
-### Port Already in Use
-```bash
-# Kill process on port 5000
-lsof -ti:5000 | xargs kill -9
-
-# Or use different port
-python app.py --port 8000
-```
-
-### Docker Build Issues
-```bash
-# Clear Docker cache
-docker system prune -a
-
-# Rebuild without cache
-docker build --no-cache -t mlops-mnist .
-```
-
-## 📚 Learning Resources
-
-- [MLflow Documentation](https://mlflow.org/docs/latest/index.html)
-- [TensorFlow Guide](https://www.tensorflow.org/guide)
-- [Flask Documentation](https://flask.palletsprojects.com/)
-- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
-
-## 🎓 Project Highlights
-
-This project demonstrates:
-1. **Experiment Tracking**: Systematic comparison of model architectures
-2. **Model Registry**: Version control and staging for ML models
-3. **MLOps Best Practices**: Reproducibility, versioning, automation
-4. **Full-Stack ML**: From training to deployment
-5. **DevOps Integration**: CI/CD for ML applications
+---
 
 ## 📄 License
 
-This project is created for educational purposes.
-
-## 👤 Author
-
-Created as part of MLOps learning curriculum.
+This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
 - MNIST Dataset: Yann LeCun et al.
-- MLflow: Databricks
-- TensorFlow: Google
+- MLflow: Databricks  
+- TensorFlow: Google Brain
+- FastAPI: Sebastián Ramírez
 
 ---
 
-**Happy Learning! 🚀**
+**For detailed technical information, architecture diagrams, and deployment guides, see the [documentation](docs/).**
