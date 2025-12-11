@@ -1,7 +1,5 @@
 """CNN model architectures for MNIST classification."""
 
-from typing import List
-
 from tensorflow import keras
 from tensorflow.keras import layers
 
@@ -128,19 +126,19 @@ def get_model_config(model_type: str) -> dict:
         "baseline": {
             "learning_rate": 0.001,
             "batch_size": 128,
-            "epochs": 5,
+            "epochs": 10,
             "optimizer": "adam",
         },
         "improved": {
             "learning_rate": 0.001,
             "batch_size": 128,
-            "epochs": 5,
+            "epochs": 10,
             "optimizer": "adam",
         },
         "optimized": {
             "learning_rate": 0.0005,
             "batch_size": 64,
-            "epochs": 5,
+            "epochs": 10,
             "optimizer": "adam",
         },
     }

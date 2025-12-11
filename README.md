@@ -73,6 +73,20 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
+### Start the MLflow Tracking Server
+
+The training pipeline requires an MLflow server listening on port 5000 so that every experiment run is tracked. Start it before running `src/training/train.py`:
+
+```bash
+mlflow server \
+   --backend-store-uri file://$PWD/mlruns \
+   --default-artifact-root file://$PWD/mlruns \
+   --host 0.0.0.0 \
+   --port 5000
+```
+
+Leave that terminal/session running while the training runs below execute.
+
 ### Train Models
 ```bash
 # Set PYTHONPATH (important!)
@@ -107,6 +121,17 @@ docker-compose logs -f api
 
 # Stop services
 docker-compose down
+
+# (Recommended) Train and register inside the container so artifacts/registry match the runtime
+docker-compose run --rm api python -m src.training.train
+printf 'y\n' | docker-compose run --rm api python scripts/register_model.py
+
+# Health check
+curl http://localhost:8000/health
+
+# Notes
+# - Compose mounts ./mlruns and ./mlartifacts to persist runs/artifacts on the host.
+# - MLflow listens on 0.0.0.0:5000 inside compose; access via http://localhost:5000 on the host.
 ```
 
 ## 📁 Project Structure
@@ -414,7 +439,7 @@ This project is licensed under the MIT License.
 ## 🙏 Acknowledgments
 
 - MNIST Dataset: Yann LeCun et al.
-- MLflow: Databricks  
+- MLflow: Databricks
 - TensorFlow: Google Brain
 - FastAPI: Sebastián Ramírez
 

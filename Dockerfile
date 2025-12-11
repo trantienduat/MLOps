@@ -1,6 +1,6 @@
 # Multi-stage Dockerfile for MNIST MLOps Application
-# Build stage
-FROM python:3.11-slim as builder
+# Build stage (Python 3.12)
+FROM python:3.12-slim as builder
 
 WORKDIR /build
 
@@ -8,8 +8,8 @@ WORKDIR /build
 COPY requirements.txt .
 RUN pip install --user --no-cache-dir -r requirements.txt
 
-# Runtime stage
-FROM python:3.11-slim
+# Runtime stage (Python 3.12)
+FROM python:3.12-slim
 
 # Create non-root user for security
 RUN useradd -m -u 1000 appuser && \
@@ -24,12 +24,13 @@ COPY --from=builder /root/.local /home/appuser/.local
 # Copy application code
 COPY --chown=appuser:appuser src/ ./src/
 COPY --chown=appuser:appuser templates/ ./templates/
-COPY --chown=appuser:appuser .env.example ./.env
+COPY --chown=appuser:appuser scripts/ ./scripts/
 
 # Set environment variables
 ENV PATH=/home/appuser/.local/bin:$PATH \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app \
     MLFLOW_TRACKING_URI=http://mlflow:5000 \
     ENVIRONMENT=production \
     LOG_LEVEL=INFO
@@ -42,7 +43,7 @@ EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
-    CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)" || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)" || exit 1
 
 # Run application with Gunicorn
 CMD ["gunicorn", "src.api.main:app", \
@@ -52,4 +53,3 @@ CMD ["gunicorn", "src.api.main:app", \
      "--timeout", "120", \
      "--access-logfile", "-", \
      "--error-logfile", "-"]
-

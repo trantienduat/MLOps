@@ -1,6 +1,7 @@
 # Core ML Libraries
 tensorflow==2.17.1
-mlflow==2.9.2
+# Upgrade MLflow to support Python 3.12 CLI entry_points behavior
+mlflow==2.15.1
 numpy==1.26.4
 matplotlib==3.9.2
 scikit-learn==1.5.2

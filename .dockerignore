@@ -19,8 +19,9 @@ env/
 ENV/
 .venv/
 
-# MLflow - keep mlruns if models are there, otherwise ignore
-# mlruns/
+# MLflow - mounted as volume, don't copy into image
+mlruns/
+mlartifacts/
 
 # IDE
 .vscode
@@ -41,9 +42,11 @@ Thumbs.db
 *.ipynb
 
 # Test files
-test_*.py
+tests/
 verify_env.py
-quick_start.py
+verify_setup.py
+scripts/quick_start.py
+scripts/test_setup.py
 
 # Logs
 *.log
