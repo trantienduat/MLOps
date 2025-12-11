@@ -2,10 +2,10 @@
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15+-orange.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)
-![MLflow](https://img.shields.io/badge/MLflow-2.9+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.11%2B%20%7C%203.12-blue.svg)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.17.1-orange.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115.5-green.svg)
+![MLflow](https://img.shields.io/badge/MLflow-2.9.2-blue.svg)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
@@ -34,9 +34,13 @@ Enterprise-grade MLOps system demonstrating production best practices:
 
 ## 🚀 Quick Start
 
+> **📚 New User?** Check [QUICKSTART.md](QUICKSTART.md) for detailed setup instructions and [STATUS.md](STATUS.md) for known issues and solutions.
+
 ### Prerequisites
-- Python 3.11+
+- Python 3.11+ (Python 3.12 supported and tested)
 - Docker & Docker Compose (optional but recommended)
+- 4GB+ RAM
+- Internet connection (for dependencies and datasets)
 
 ### Option 1: Automated Setup (Recommended)
 ```bash
@@ -44,6 +48,9 @@ git clone https://github.com/trantienduat/MLOps.git
 cd MLOps
 ./setup.sh
 source .venv/bin/activate
+
+# Verify installation
+python verify_setup.py
 ```
 
 ### Option 2: Manual Setup
@@ -68,6 +75,9 @@ cp .env.example .env
 
 ### Train Models
 ```bash
+# Set PYTHONPATH (important!)
+export PYTHONPATH=$(pwd)
+
 # Run training pipeline (creates 3 experiments)
 python src/training/train.py
 
@@ -75,6 +85,8 @@ python src/training/train.py
 mlflow ui
 # Open http://localhost:5000
 ```
+
+> **Note**: If MNIST dataset download fails due to network restrictions, see [STATUS.md](STATUS.md#2-mnist-dataset-download-issues) for solutions.
 
 ### Start API Server
 
