@@ -63,7 +63,7 @@
 - ✅ **Error Handling**: Explicit exceptions, never bare `except:`
 - ✅ **Logging**: Use `logging` module, structured logs (JSON in production)
 - ✅ **Configuration**: Environment-based, never hardcode credentials
-- ✅ **Testing**: Minimum 80% code coverage
+- ✅ **Testing**: ≥80% code coverage required
 - ✅ **Linting**: Black, isort, flake8, mypy in pre-commit hooks
 
 ### Code Quality Tools
@@ -589,7 +589,7 @@ mlops-mnist/
 
 ```bash
 # 1. Clone and setup
-git clone https://github.com/USERNAME/MLOps.git
+git clone https://github.com/trantienduat/MLOps.git
 cd MLOps
 python3.11 -m venv .venv
 source .venv/bin/activate
@@ -627,6 +627,51 @@ uvicorn src.api.main:app --reload
 - [AWS Well-Architected ML Lens](https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html)
 - [MLflow Best Practices](https://mlflow.org/docs/latest/tracking.html)
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
+
+---
+
+## 🤖 WORKING WITH COPILOT AGENT
+
+### Creating Issues for Copilot
+
+When creating issues for GitHub Copilot to work on, follow these guidelines:
+
+**Good Issue Structure:**
+```markdown
+## Description
+Clear description of the feature or bug fix needed
+
+## Acceptance Criteria
+- [ ] Criterion 1 (e.g., "API endpoint returns 200 status")
+- [ ] Criterion 2 (e.g., "Unit tests have ≥80% coverage")
+- [ ] Criterion 3 (e.g., "Documentation updated")
+
+## Files to Modify
+- src/api/main.py
+- tests/unit/test_api.py
+- docs/API.md
+
+## Additional Context
+- Related to issue #123
+- See example in src/models/cnn.py
+```
+
+**Best Practices:**
+- Keep issues focused and well-scoped (avoid multi-step refactors)
+- Include specific file paths when possible
+- Reference existing patterns in the codebase
+- Specify testing requirements explicitly
+- Mention security considerations if applicable
+
+### Code Review Expectations
+
+All code (including Copilot-generated) must:
+- Pass linting (black, isort, flake8, mypy)
+- Include type hints
+- Have docstrings for public functions
+- Include tests with ≥80% coverage
+- Pass security scans (safety, pip-audit)
+- Follow patterns established in the codebase
 
 ---
 
