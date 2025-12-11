@@ -1,18 +1,45 @@
-# Python 3.11 is recommended for this project. Use a virtual environment for isolation.
+# Python 3.11+ is recommended for this project. Use a virtual environment for isolation.
 # To create a virtual environment:
 # python3.11 -m venv .venv
 # source .venv/bin/activate
 # pip install -r requirements.txt
 
+# MLflow
 mlruns/
+mlartifacts/
+logs/
+
+# Python cache
 __pycache__/
-.venv/
-.env
 *.pyc
 *.pyo
 *.pyd
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment files
+.env
+
+# Database
 *.sqlite3
+
+# Logs
 *.log
-*.DS_Store
+
+# IDE
+.DS_Store
 .idea/
 .vscode/
+
+# Test coverage
+.coverage
+htmlcov/
+coverage.xml
+.pytest_cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

@@ -15,7 +15,9 @@ NC='\033[0m' # No Color
 
 # Check Python version
 echo -e "\n${YELLOW}Checking Python version...${NC}"
-if command -v python3.11 &> /dev/null; then
+if command -v python3.12 &> /dev/null; then
+    PYTHON_CMD=python3.12
+elif command -v python3.11 &> /dev/null; then
     PYTHON_CMD=python3.11
 elif command -v python3 &> /dev/null; then
     PYTHON_CMD=python3
