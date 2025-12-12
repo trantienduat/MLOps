@@ -27,9 +27,10 @@ services:
 
   # MNIST Classification API
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: trantienduat/mlops-mnist:${IMAGE_TAG:-latest}
     container_name: mnist-api
     ports:
       - "8000:8000"
