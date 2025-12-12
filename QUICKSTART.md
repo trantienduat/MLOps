@@ -142,6 +142,10 @@ Access:
 ### Option 2: Production Mode (Docker)
 
 ```bash
+# First time (required): create experiment runs so fallback can work, and register model for registry-first boot
+docker-compose run --rm api python -m src.training.train
+printf 'y\n' | docker-compose run --rm api python scripts/register_model.py
+
 # Start all services (MLflow + API)
 docker-compose up -d
 
@@ -151,6 +155,14 @@ docker-compose logs -f api
 # Stop services
 docker-compose down
 ```
+
+> Want the model baked into the image (no registry at runtime)?
+> 1) Copy an MLflow model to `model_store/model` (e.g., `cp -r mlruns/<exp>/<run>/artifacts/model model_store/` or `mlflow models download -m "models:/Mnist_Best_Model/Production" -d model_store/model`).
+> 2) `docker build -t mlops-mnist:with-model .`
+> 3) `docker-compose up -d` (the API will load `MODEL_LOCAL_PATH` first).
+
+Notes:
+- If you skip registration, keep ALLOW_RUN_FALLBACK=true (default) and ensure the experiment `MNIST_Classification_Experiments` exists from the training step above.
 
 ## 🧪 Testing the API
 

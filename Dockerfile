@@ -25,6 +25,7 @@ COPY --from=builder /root/.local /home/appuser/.local
 COPY --chown=appuser:appuser src/ ./src/
 COPY --chown=appuser:appuser templates/ ./templates/
 COPY --chown=appuser:appuser scripts/ ./scripts/
+COPY --chown=appuser:appuser model_store/ ./model_store/
 
 # Set environment variables
 ENV PATH=/home/appuser/.local/bin:$PATH \
@@ -32,6 +33,7 @@ ENV PATH=/home/appuser/.local/bin:$PATH \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/app \
     MLFLOW_TRACKING_URI=http://mlflow:5000 \
+    MODEL_LOCAL_PATH=/app/model_store/model \
     ENVIRONMENT=production \
     LOG_LEVEL=INFO
 

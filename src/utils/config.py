@@ -18,6 +18,8 @@ class Config:
     MODEL_NAME: str = os.getenv("MODEL_NAME", "Mnist_Best_Model")
     EXPERIMENT_NAME: str = os.getenv("EXPERIMENT_NAME", "MNIST_Classification_Experiments")
     MODEL_STAGE: str = os.getenv("MODEL_STAGE", "Production")
+    ALLOW_RUN_FALLBACK: bool = os.getenv("ALLOW_RUN_FALLBACK", "true").lower() == "true"
+    MODEL_LOCAL_PATH: Optional[str] = os.getenv("MODEL_LOCAL_PATH")
 
     # Application Configuration
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")

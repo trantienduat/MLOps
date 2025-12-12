@@ -3,14 +3,14 @@
 import base64
 import io
 import time
-from typing import Optional
+from pathlib import Path
+from typing import Any, Optional
 
 import mlflow
 import numpy as np
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from PIL import Image
 from prometheus_client import make_asgi_app
 
@@ -51,18 +51,49 @@ metrics_app = make_asgi_app()
 app.mount("/metrics", metrics_app)
 
 # Global model variable
-model: Optional[object] = None
+model: Optional[Any] = None
 model_version: str = "unknown"
+
+
+def load_model_from_local_path() -> None:
+    """Load model from a local path baked into the image."""
+
+    global model, model_version
+
+    if not config.MODEL_LOCAL_PATH:
+        return
+
+    resolved = Path(config.MODEL_LOCAL_PATH)
+    if not resolved.exists():
+        raise RuntimeError(
+            f"MODEL_LOCAL_PATH set to '{config.MODEL_LOCAL_PATH}' but path does not exist"
+        )
+
+    logger.info("Loading model from local path: %s", resolved)
+    model = mlflow.tensorflow.load_model(resolved.as_posix())
+    model_version = f"local:{resolved.name}"
+    logger.info("Model loaded successfully from local path")
 
 
 def load_model_from_registry() -> None:
     """
-    Load model from MLflow Model Registry.
+    Load model from local path (if provided) or MLflow Model Registry.
 
     Raises:
         RuntimeError: If model loading fails.
     """
     global model, model_version
+
+    # Prefer baked-in local model when provided
+    if config.MODEL_LOCAL_PATH:
+        try:
+            load_model_from_local_path()
+            return
+        except Exception as local_error:
+            logger.error("Failed to load local model: %s", local_error)
+            if not config.ALLOW_RUN_FALLBACK:
+                raise RuntimeError(f"Model loading failed: {local_error}") from local_error
+            logger.info("Proceeding to registry/fallback load after local model failure")
 
     try:
         logger.info(f"Loading model '{config.MODEL_NAME}' from MLflow Registry...")
@@ -85,8 +116,52 @@ def load_model_from_registry() -> None:
             logger.warning("Could not retrieve model version")
 
     except Exception as e:
-        logger.error(f"Failed to load model: {e}")
-        raise RuntimeError(f"Model loading failed: {e}") from e
+        logger.error(f"Failed to load model from registry: {e}")
+
+        if not config.ALLOW_RUN_FALLBACK:
+            raise RuntimeError(f"Model loading failed: {e}") from e
+
+        # Fallback: load best run from experiment (order by test_accuracy)
+        try:
+            from mlflow.tracking import MlflowClient
+
+            logger.info(
+                "Falling back to best run in experiment '%s' by metrics.test_accuracy",
+                config.EXPERIMENT_NAME,
+            )
+
+            client = MlflowClient()
+            experiment = client.get_experiment_by_name(config.EXPERIMENT_NAME)
+            if not experiment:
+                raise RuntimeError(
+                    f"Experiment '{config.EXPERIMENT_NAME}' not found; cannot fallback to best run"
+                )
+
+            runs = client.search_runs(
+                experiment_ids=[experiment.experiment_id],
+                order_by=["metrics.test_accuracy DESC"],
+                max_results=1,
+            )
+
+            if not runs:
+                raise RuntimeError(
+                    f"No runs found in experiment '{config.EXPERIMENT_NAME}' to fallback"
+                )
+
+            best_run = runs[0]
+            fallback_uri = f"runs:/{best_run.info.run_id}/model"
+            logger.info(
+                "Loading fallback model from run %s (test_accuracy=%s)",
+                best_run.info.run_id,
+                best_run.data.metrics.get("test_accuracy"),
+            )
+            model = mlflow.tensorflow.load_model(fallback_uri)
+            model_version = f"run:{best_run.info.run_id}"
+            logger.info("Fallback model loaded successfully from best run")
+
+        except Exception as fallback_error:
+            logger.error(f"Fallback load failed: {fallback_error}")
+            raise RuntimeError(f"Model loading failed: {fallback_error}") from fallback_error
 
 
 @app.on_event("startup")
@@ -99,7 +174,7 @@ async def startup_event() -> None:
 
 
 @app.middleware("http")
-async def track_requests(request: Request, call_next):
+async def track_requests(request: Request, call_next: Any) -> Any:
     """Middleware to track API requests and latency."""
     active_requests.inc()
     start_time = time.time()

@@ -113,6 +113,10 @@ uvicorn src.api.main:app --reload
 
 #### Production Mode (Docker)
 ```bash
+# First time (required): create experiment runs so fallback can work, and register model for registry-first boot
+docker-compose run --rm api python -m src.training.train
+printf 'y\n' | docker-compose run --rm api python scripts/register_model.py
+
 # Start all services (MLflow + API)
 docker-compose up -d
 
@@ -122,16 +126,23 @@ docker-compose logs -f api
 # Stop services
 docker-compose down
 
-# (Recommended) Train and register inside the container so artifacts/registry match the runtime
-docker-compose run --rm api python -m src.training.train
-printf 'y\n' | docker-compose run --rm api python scripts/register_model.py
-
 # Health check
 curl http://localhost:8000/health
 
 # Notes
+# - If you skip registration, keep ALLOW_RUN_FALLBACK=true (default) and ensure the experiment 'MNIST_Classification_Experiments' exists from the training step above.
 # - Compose mounts ./mlruns and ./mlartifacts to persist runs/artifacts on the host.
 # - MLflow listens on 0.0.0.0:5000 inside compose; access via http://localhost:5000 on the host.
+
+# Optional: bake model into the image (no registry needed at runtime)
+# 1) Export a model into model_store/model (MLflow format)
+#    cp -r mlruns/<experiment_id>/<run_id>/artifacts/model model_store/
+#    # or download a registered model version:
+#    mlflow models download -m "models:/Mnist_Best_Model/Production" -d model_store/model
+# 2) Build image (MODEL_LOCAL_PATH defaults to /app/model_store/model)
+#    docker build -t mlops-mnist:with-model .
+# 3) Run compose (will load baked model first)
+#    docker-compose up -d
 ```
 
 ## 📁 Project Structure
