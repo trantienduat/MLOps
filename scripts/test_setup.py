@@ -8,7 +8,6 @@ This script:
 """
 
 import sys
-import subprocess
 
 
 def check_imports():

@@ -12,10 +12,9 @@ It checks:
 - Basic functionality
 """
 
-import os
 import sys
 from pathlib import Path
-from typing import Tuple, List
+from typing import List, Tuple
 
 
 class Colors:
@@ -272,12 +271,12 @@ def test_basic_functionality() -> Tuple[bool, str]:
     """
     try:
         # Test data loading
-        from src.data.loader import load_mnist_data
+        from src.data.loader import load_mnist_data  # noqa: F401
 
         print_success("Data loader can be imported")
 
         # Test model creation
-        from src.models.cnn import create_baseline_model
+        from src.models.cnn import create_baseline_model  # noqa: F401
 
         print_success("Model creation can be imported")
 

@@ -9,7 +9,6 @@ This script trains three different CNN models on MNIST dataset:
 
 import mlflow
 import mlflow.tensorflow
-import tensorflow as tf
 
 try:
     from tensorflow import keras
@@ -18,8 +17,9 @@ except ImportError:
     # Fallback for older TensorFlow versions
     import keras
     from keras import layers
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def load_mnist_data():

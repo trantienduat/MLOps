@@ -728,6 +728,6 @@ Docker Compose / Kubernetes
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: December 2025  
+**Document Version**: 1.0
+**Last Updated**: December 2025
 **Maintainer**: MLOps Team

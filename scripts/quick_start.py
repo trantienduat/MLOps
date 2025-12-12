@@ -3,7 +3,6 @@ Quick start script to help users get started with the MLOps project.
 """
 
 import sys
-import os
 
 
 def print_banner():
@@ -42,18 +41,18 @@ def main():
     print(
         """
 1. Create and activate virtual environment:
-   
+
    python3.11 -m venv venv
    source venv/bin/activate  # Mac/Linux
    # OR
    venv\\Scripts\\activate  # Windows
 
 2. Install dependencies:
-   
+
    pip install -r requirements.txt
 
 3. Verify installation:
-   
+
    python test_setup.py
     """
     )
@@ -73,7 +72,7 @@ This will:
 
 Expected results:
 - Run 1 (Baseline):        ~98.0% accuracy
-- Run 2 (Architecture):    ~98.5% accuracy  
+- Run 2 (Architecture):    ~98.5% accuracy
 - Run 3 (Hyperparameter):  ~99.0% accuracy
     """
     )
@@ -123,10 +122,10 @@ Build and run with Docker:
 
    # Build image
    docker build -t mlops-mnist:latest .
-   
+
    # Run container
    docker run -p 5000:5000 mlops-mnist:latest
-   
+
    # Push to Docker Hub (optional)
    docker tag mlops-mnist:latest YOUR_USERNAME/mlops-mnist:latest
    docker push YOUR_USERNAME/mlops-mnist:latest
@@ -143,7 +142,7 @@ Build and run with Docker:
    - DOCKER_PASSWORD
 
 3. Push code:
-   
+
    git add .
    git commit -m "MLOps project complete"
    git push origin main

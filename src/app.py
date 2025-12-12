@@ -5,15 +5,16 @@ This application allows users to draw digits on a canvas and get predictions
 from a trained MLflow model.
 """
 
-from flask import Flask, render_template, request, jsonify
+import base64
+import io
+import os
+import sys
+
 import mlflow
 import mlflow.tensorflow
 import numpy as np
+from flask import Flask, jsonify, render_template, request
 from PIL import Image
-import io
-import base64
-import os
-import sys
 
 # Add parent directory to path to find templates
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -69,8 +70,9 @@ def load_model():
                     model_uri = f"runs:/{best_run.info.run_id}/model"
                     print(f"Loading model from best run: {best_run.info.run_id}")
                     model = mlflow.tensorflow.load_model(model_uri)
+                    accuracy = best_run.data.metrics.get('test_accuracy', 'N/A')
                     print(
-                        f"Successfully loaded model with accuracy: {best_run.data.metrics.get('test_accuracy', 'N/A')}"
+                        f"Successfully loaded model with accuracy: {accuracy}"
                     )
                     return model
         except Exception as e2:

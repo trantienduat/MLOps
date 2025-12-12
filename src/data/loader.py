@@ -11,10 +11,12 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-def load_mnist_data() -> Tuple[
-    Tuple[npt.NDArray[np.float32], npt.NDArray[np.int64]],
-    Tuple[npt.NDArray[np.float32], npt.NDArray[np.int64]],
-]:
+def load_mnist_data() -> (
+    Tuple[
+        Tuple[npt.NDArray[np.float32], npt.NDArray[np.int64]],
+        Tuple[npt.NDArray[np.float32], npt.NDArray[np.int64]],
+    ]
+):
     """
     Load and preprocess MNIST dataset.
 

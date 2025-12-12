@@ -188,7 +188,7 @@ curl http://localhost:8000/metrics
 
 ### 5. API Documentation
 
-**Swagger UI**: `GET /api/docs`  
+**Swagger UI**: `GET /api/docs`
 **ReDoc**: `GET /api/redoc`
 
 **Description**: Interactive API documentation
@@ -583,13 +583,13 @@ import requests
 def test_end_to_end():
     # Create test image
     image_data = create_test_digit_image(digit=5)
-    
+
     # Make prediction
     response = requests.post(
         "http://localhost:8000/predict",
         json={"image": image_data}
     )
-    
+
     # Verify response
     assert response.status_code == 200
     result = response.json()
@@ -619,6 +619,6 @@ def test_end_to_end():
 
 ---
 
-**API Version**: 1.0  
-**Last Updated**: December 2025  
+**API Version**: 1.0
+**Last Updated**: December 2025
 **Support**: See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment guide

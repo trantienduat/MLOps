@@ -104,7 +104,7 @@ with mlflow.start_run(run_name="baseline-cnn-v1") as run:
         "batch_size": 32,
         "epochs": 10
     })
-    
+
     # Log metrics per epoch
     for epoch in range(epochs):
         mlflow.log_metrics({
@@ -113,15 +113,15 @@ with mlflow.start_run(run_name="baseline-cnn-v1") as run:
             "val_loss": val_loss,
             "val_accuracy": val_acc
         }, step=epoch)
-    
+
     # Log model with signature
     mlflow.tensorflow.log_model(
-        model, 
+        model,
         "model",
         signature=signature,
         input_example=input_example
     )
-    
+
     # Log artifacts
     mlflow.log_artifacts("plots/", artifact_path="visualizations")
 ```
@@ -202,7 +202,7 @@ app = FastAPI(
 # Request/Response schemas
 class PredictionRequest(BaseModel):
     image: list[list[float]] = Field(..., description="28x28 image array")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -226,15 +226,15 @@ async def predict(request: PredictionRequest):
     try:
         # Load model (use singleton pattern in production)
         model = load_model_from_registry()
-        
+
         # Preprocess
         image = np.array(request.image).reshape(1, 28, 28, 1)
-        
+
         # Predict
         probabilities = model.predict(image)[0]
         prediction = int(np.argmax(probabilities))
         confidence = float(probabilities[prediction])
-        
+
         return PredictionResponse(
             prediction=prediction,
             confidence=confidence,
@@ -319,28 +319,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
-      
+
       - name: Lint
         run: |
           black --check .
           isort --check .
           flake8 .
           mypy .
-      
+
       - name: Test
         run: pytest --cov=src --cov-report=xml
-      
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
 
@@ -350,16 +350,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -394,7 +394,7 @@ import time
 
 # Define metrics
 prediction_counter = Counter(
-    'predictions_total', 
+    'predictions_total',
     'Total number of predictions',
     ['model_version', 'prediction_class']
 )
@@ -415,14 +415,14 @@ def predict(image):
     result = model.predict(image)
     prediction = int(np.argmax(result))
     confidence = float(result[0][prediction])
-    
+
     prediction_counter.labels(
         model_version='1.0.0',
         prediction_class=str(prediction)
     ).inc()
-    
+
     model_confidence.set(confidence)
-    
+
     return result
 ```
 
@@ -437,7 +437,7 @@ def monitor_data_drift(reference_data, current_data):
     report = Report(metrics=[DataDriftPreset()])
     report.run(reference_data=reference_data, current_data=current_data)
     report.save_html('reports/drift_report.html')
-    
+
     # Alert if drift detected
     if report.as_dict()['metrics'][0]['result']['dataset_drift']:
         send_alert("Data drift detected!")
@@ -631,4 +631,3 @@ uvicorn src.api.main:app --reload
 ---
 
 **Remember**: Enterprise MLOps is not just about ML models—it's about building reliable, scalable, and maintainable ML systems.
-

@@ -274,7 +274,7 @@
 
         function draw(e) {
             if (!isDrawing) return;
-            
+
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -352,7 +352,7 @@
 
         function displayResult(data) {
             const confidence = (data.confidence * 100).toFixed(2);
-            
+
             let html = `
                 <div class="prediction">🎯 ${data.prediction}</div>
                 <div class="confidence">Confidence: ${confidence}%</div>

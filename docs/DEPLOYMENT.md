@@ -762,6 +762,6 @@ curl http://localhost:9090/-/healthy
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: December 2025  
+**Document Version**: 1.0
+**Last Updated**: December 2025
 **For More Info**: See [ARCHITECTURE.md](ARCHITECTURE.md) for system design

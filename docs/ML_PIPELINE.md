@@ -32,7 +32,7 @@ The MNIST ML pipeline implements a systematic approach to model development thro
 
 ### MNIST Dataset Characteristics
 
-**Source**: MNIST Handwritten Digits Database  
+**Source**: MNIST Handwritten Digits Database
 **Provider**: Yann LeCun, Corinna Cortes, Christopher J.C. Burges
 
 **Statistics:**
@@ -80,7 +80,7 @@ y_test = to_categorical(y_test, 10)
 ```python
 def build_baseline_model():
     model = Sequential([
-        Conv2D(32, kernel_size=(3, 3), activation='relu', 
+        Conv2D(32, kernel_size=(3, 3), activation='relu',
                input_shape=(28, 28, 1)),
         MaxPooling2D(pool_size=(2, 2)),
         Flatten(),
@@ -100,7 +100,7 @@ def build_baseline_model():
 - **Dense Output**: 10 units, softmax activation
   - Output: 10 class probabilities
 
-**Parameters**: ~5,450  
+**Parameters**: ~5,450
 **Expected Accuracy**: ~98.0%
 
 **Rationale**: Simple architecture to establish baseline. Minimal layers to verify training pipeline works correctly.
@@ -142,7 +142,7 @@ def build_enhanced_model():
   - Strong regularization before output
 - **Dense Output**: 10 units, softmax activation
 
-**Parameters**: ~1,395,978  
+**Parameters**: ~1,395,978
 **Expected Accuracy**: ~98.5%
 
 **Improvements over Run 1:**
@@ -164,7 +164,7 @@ def build_optimized_model():
     return model
 ```
 
-**Architecture**: Identical to Run 2  
+**Architecture**: Identical to Run 2
 **Change**: Hyperparameter optimization (not architecture)
 
 **Hyperparameter Changes:**
@@ -219,7 +219,7 @@ with mlflow.start_run(run_name=run_name):
         "batch_size": batch_size,
         "epochs": epochs
     })
-    
+
     # Train model
     history = model.fit(
         x_train, y_train,
@@ -228,7 +228,7 @@ with mlflow.start_run(run_name=run_name):
         validation_split=0.1,
         verbose=1
     )
-    
+
     # Log metrics per epoch
     for epoch in range(epochs):
         mlflow.log_metrics({
@@ -237,14 +237,14 @@ with mlflow.start_run(run_name=run_name):
             "val_loss": history.history['val_loss'][epoch],
             "val_accuracy": history.history['val_accuracy'][epoch]
         }, step=epoch)
-    
+
     # Evaluate on test set
     test_loss, test_accuracy = model.evaluate(x_test, y_test)
     mlflow.log_metrics({
         "test_loss": test_loss,
         "test_accuracy": test_accuracy
     })
-    
+
     # Save model
     mlflow.tensorflow.log_model(model, "model")
 ```
@@ -420,7 +420,7 @@ with mlflow.start_run(run_name="run_1_baseline"):
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
-    
+
     mlflow.log_params({
         "model_type": "baseline",
         "filters": 32,
@@ -428,20 +428,20 @@ with mlflow.start_run(run_name="run_1_baseline"):
         "batch_size": 128,
         "epochs": 5
     })
-    
+
     history = model.fit(
         x_train, y_train,
         batch_size=128,
         epochs=5,
         validation_split=0.1
     )
-    
+
     test_loss, test_accuracy = model.evaluate(x_test, y_test)
     mlflow.log_metrics({
         "test_loss": test_loss,
         "test_accuracy": test_accuracy
     })
-    
+
     mlflow.tensorflow.log_model(model, "model")
 ```
 
@@ -545,6 +545,6 @@ client.transition_model_version_stage(
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: December 2025  
+**Document Version**: 1.0
+**Last Updated**: December 2025
 **For More Info**: See [ARCHITECTURE.md](ARCHITECTURE.md) for system architecture

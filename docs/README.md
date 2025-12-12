@@ -303,8 +303,8 @@ For issues not covered in documentation, please open a GitHub issue.
 
 ---
 
-**Documentation Version**: 1.0  
-**Last Updated**: December 2025  
+**Documentation Version**: 1.0
+**Last Updated**: December 2025
 **Maintained By**: MLOps Team
 
 ---
